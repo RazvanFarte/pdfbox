@@ -19,6 +19,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    environment: dockerHub
+    env: 
+      REGISTRY: ${{ vars.REGISTRY }}
+      IMAGE_NAME: ${{ vars.IMAGE_NAME }}
     permissions:
       contents: read
       packages: write
@@ -49,9 +53,10 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          # registry: ${{ env.REGISTRY }}
+          # username: ${{ github.actor }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
